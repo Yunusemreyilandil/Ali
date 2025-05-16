@@ -3,20 +3,20 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class ThirdPersonCharacterController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float walkSpeed = 5f;
+    public float runSpeed = 8f;
     public float rotationSpeed = 10f;
     public float gravity = -9.81f;
     public float jumpForce = 8f;
-    public float crouchHeight = 1f;
-    public float standingHeight = 2f;
-    public float crouchCenterY = 0.5f;
-    public float standingCenterY = 1f;
     public Transform cameraTransform;
+    public Animator animator;
 
     private CharacterController controller;
     private Vector3 velocity;
-    private bool isGrounded;
-    private bool isCrouching = false;
+    private bool isWalking = false;
+    private bool isRunning = false;
+    private bool isJumping = false;
+    private bool isGrounded = false;
 
     void Start()
     {
@@ -24,64 +24,58 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (cameraTransform == null && Camera.main != null)
             cameraTransform = Camera.main.transform;
 
-        // Baþlangýçta ayakta baþla
-        controller.height = standingHeight;
-        controller.center = new Vector3(0, standingCenterY, 0);
+        if (animator == null)
+            animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        // Yere temas kontrolü
         isGrounded = controller.isGrounded;
-        if (isGrounded && velocity.y < 0)
-            velocity.y = -2f;
 
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f; // Küçük bir sabit deðerle yere sabitle
+            isJumping = false;
+            animator.SetBool("isJumping", false);
+        }
+
+        // Shift'e basýldýðýnda koþma
+        isRunning = Input.GetKey(KeyCode.LeftShift);
+
+        // Hareket hýzý seçimi
+        float currentSpeed = isRunning ? runSpeed : walkSpeed;
+
+        // Hareket Kontrolü
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        if (direction.magnitude >= 0.1f)
+        // Yürüme ve koþma kontrolü
+        isWalking = direction.magnitude >= 0.1f;
+        animator.SetBool("isWalking", isWalking);
+        animator.SetBool("isRunning", isRunning);
+
+        if (isWalking)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSpeed, 0.1f);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
+            controller.Move(moveDir.normalized * currentSpeed * Time.deltaTime);
         }
 
         // Zýplama kontrolü
-        if (isGrounded && Input.GetButtonDown("Jump") && !isCrouching)
+        if (isGrounded && Input.GetButtonDown("Jump"))
         {
             velocity.y = jumpForce;
+            isJumping = true;
+            animator.SetBool("isJumping", true);
         }
 
-        // Eðilme kontrolü (CTRL tuþu)
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            isCrouching = true;
-            controller.height = crouchHeight;
-            controller.center = new Vector3(0, crouchCenterY, 0);
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            // Üstte engel yoksa kalk
-            if (CanStandUp())
-            {
-                isCrouching = false;
-                controller.height = standingHeight;
-                controller.center = new Vector3(0, standingCenterY, 0);
-            }
-        }
-
+        // Yerçekimi uygulama
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-    }
-
-    // Karakterin üstünde engel var mý kontrolü (kalkýþ için)
-    bool CanStandUp()
-    {
-        float checkDistance = standingHeight - crouchHeight;
-        Vector3 start = transform.position + Vector3.up * crouchHeight;
-        return !Physics.SphereCast(start, controller.radius * 0.95f, Vector3.up, out RaycastHit hit, checkDistance, ~0, QueryTriggerInteraction.Ignore);
     }
 }

@@ -1,0 +1,37 @@
+Alice Harikalar Diyarında
+
+Ödev Yönergesi
+
+
+
+Lewis Carol tarafından yazılmış “Alis Harikalar Diyarında” romanından esinlenerek oluşturulacak 3D oyun için temel kurallar ve beklentiler aşağıdaki şekildedir. Ödev Oyun Tasarımının Temelleri ve Oyun Geliştirme derslerinin final projelerinin 40 puanını kapsamaktadır.
+
+
+
+Ödevin temel kuralları
+
+1.       Oyununuzun adı: (Her kendisi oyununu bir ad verecek)
+
+2.       Oyunların akışı;
+
+a.       1.MainScene- Bu kısımda oyunun giriş, çıkış, ekip, kurallar butonları olacak. Aynı zamanda oyununuzun adı görünecek. Bununla birlikte giriş için müzik, butonlar için sesler de eklenecek.
+
+b.      2.Labirent - Bu sahnede Alis karakteri animatör controller ile yönetilecek. Karakterimiz karşısına çıkan engelleri aşarak belirli bir puan toplayarak portaldan geçmesi gerekiyor. Level tasarımı kısmında serbestsiniz. Yalnız labirent mantığı ve Alis karakterinin karşısına çıkacak engellerin olması şarttır. Alis, engelleri aşarsa, portal açılır ve level değişir. Bu sahnede temel bir ana karakter ve onun ulaşmak istediği bir hedef var. Portalı geçmek. Alis ve Portal arasında ceza, ödül ve engel dengesinin kurulması gerekiyor.
+
+c.       3.Level – Bahçe: Alis burada zamana karşı savaşır. Etrafta oluşan ve kaybolan portalların birinden geçmesi gerekecek. Portallar belirli scale geldiklerinde yok olurlar. Portal ve ALis arasında uygun scale olması gerekiyor. Yalnız Alisin doğru portalı bulması gerekiyor. Bu hedefine ulaşmaya çalışırken, etrafta spawnlanan mantarlar var. Mantarlar Alisin hızını düşürür ve doğal olarak mantarlara basmadan onlara dokunmadan ilerlemesi gerekiyor. Aksi taktirde Alis harfeket hızı düşer ve geçeceği portala ulaşana kadar portal eriyip kaybolur.
+
+d.      4.Level – LittleBig.
+
+Burası en asbürt, bütün gerçekçi mantığın ortadan kaybolduğu ve real fiziğin işlemediği bir alan.
+
+Alisin küçülüp büyüme sürecini tasarlayacaksınız. Yani Alis için portalı onun ve oyuncunun algılamayacağı biçimde yerleştirmeniz gerekiyor. Ağırlıklı olarak scale üzerinden kodlama ve oyun mantığı kurmanız gerekiyor.
+
+Bu level sizin yaratıcı düşüncenizi, dünyayı algılama biçimini gösterecek temel leveldir. Ödevlerinizi değerlendirirken, bu kısımda daha çok durulacaktır. Ve ödevin 20 puanını teşkil ediyor.
+
+5.Level Saray sahnesin- Alis bu sahnede düşmanla karşılaşır ve onu yenmeye çalışır. Alisin düşmana hazırlığını ayarlamanız gerekiyor. Yani önceki 4 Level içerisinde Alis karakterine öyle güçler ve özellikler kazandırmanız gerekiyor ki, bu levelde düşmanı yenmek için onu kullansın. Ders içerisinde örnek olsun diye Alis ışın saçma gücünü ekleyeceğiz. Ancak sizlerden daha farklı bir özellik eklemenizi bekliyorum.
+
+ Alis oyunu için son teslim tarihi 18.05.2025 tarihine kadardır.
+
+Note: ödevleri değerlendirirken, derse devam eden, benimle birlikte bu yaratıcı süreçte çalışan ve zamanını ayıran öğrenciler için kanaat notu kullanacağım. Geri kalanlar, yani derse devam etmeyenler için bu geçerli değildir.
+
+Sevgiler.
